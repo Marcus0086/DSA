@@ -1,12 +1,18 @@
+mod array_str;
+mod dp;
+mod recursion;
 mod two_sum;
 mod valid_paranthesis;
-mod recursion;
 
 #[cfg(test)]
 mod tests {
+    use crate::array_str;
+    use crate::dp;
+    use crate::recursion;
     use crate::two_sum;
     use crate::valid_paranthesis;
-    use crate::recursion;
+
+    use std::collections::HashMap;
 
     #[test]
     fn test_two_sum() {
@@ -116,7 +122,10 @@ mod tests {
     #[test]
     fn test_factorial() {
         let input = 30;
-        assert_eq!(recursion::Solution::fact(input), 265252859812191058636308480000000);
+        assert_eq!(
+            recursion::Solution::fact(input),
+            265252859812191058636308480000000
+        );
     }
 
     #[test]
@@ -128,7 +137,10 @@ mod tests {
     #[test]
     fn test_spell_recur() {
         let input = 430198610;
-        assert_eq!(recursion::Solution::spell_recursion(input), "four three zero one nine eight six one zero");
+        assert_eq!(
+            recursion::Solution::spell_recursion(input),
+            "four three zero one nine eight six one zero"
+        );
     }
 
     #[test]
@@ -140,26 +152,79 @@ mod tests {
 
     #[test]
     fn test_sorted_unsorted_arr_true() {
-        let input: [i32; 10] = [1, 2 ,3 ,4, 5, 6, 7, 8, 9, 10];
+        let input: [i32; 10] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         let result = recursion::Solution::sorted_unsorted_check(&input);
         assert_eq!(result, true);
     }
 
     #[test]
     fn test_sorted_unsorted_arr_false() {
-        let input: [i32; 10] = [1, 2 ,3 ,6, 4, 6, 7, 8, 10, 9];
+        let input: [i32; 10] = [1, 2, 3, 6, 4, 6, 7, 8, 10, 9];
         let result = recursion::Solution::sorted_unsorted_check(&input);
         assert_eq!(result, false);
     }
 
     #[test]
     fn test_subsets() {
-        let input: [i32; 10] = [1, 2 ,3 ,4, 5, 6, 7, 8, 9, 10];
+        let input: [i32; 10] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         let result = recursion::Solution::subset(&input);
         assert_eq!(result.len(), 1024);
     }
+
+    #[test]
+    fn test_profit() {
+        let input = vec![7, 1, 5, 3, 6, 4];
+        let result = array_str::Solution::profit(input);
+        assert_eq!(result, 5);
+    }
+
+    #[test]
+    fn test_profit_2() {
+        let input = vec![7, 6, 4, 3, 1];
+        let result = array_str::Solution::profit(input);
+        assert_eq!(result, 0);
+    }
+
+    #[test]
+    fn test_pallindrom() {
+        let input = "A man, a plan, a canal: Panama";
+        let result = array_str::Solution::is_valid_pallindrome(&input.to_string());
+        assert_eq!(result, true);
+    }
+
+    #[test]
+    fn test_contain_duplicate() {
+        let input = vec![1, 2, 3, 1];
+        let result = array_str::Solution::contains_duplicate(input);
+        assert_eq!(result, true);
+    }
+
+    #[test]
+    fn test_contain_duplicate_2() {
+        let input = vec![1, 2, 3, 4];
+        let result = array_str::Solution::contains_duplicate(input);
+        assert_eq!(result, false);
+    }
+
+    #[test]
+    fn test_angram() {
+        let input = "anagram".to_string();
+        let input2 = "nagaram".to_string();
+        let result = array_str::Solution::is_anagram(input, input2);
+        assert_eq!(result, true);
+    }
+
+    #[test]
+    fn test_fib() {
+        let input = 100;
+        assert_eq!(dp::Solution::with_dp_fib_loop(input), 354224848179261915075);
+    }
+
+    #[test]
+    fn test_climbing_stairs() {
+        let input = 10;
+        assert_eq!(dp::Solution::climbing_stairs(input), 89);
+    }
 }
 
-fn main() {
-    print!("Hello World!");
-}
+fn main() {}

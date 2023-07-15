@@ -145,13 +145,13 @@ impl Solution {
         Solution::sorted_unsorted_check_helper(arr, &i)
     }
 
-    pub fn subset_helper(arr: &[i32], i: &usize, result: &mut Vec<i32>, acc: &mut Vec<Vec<i32>>) {
+    pub fn subset_helper(arr: &[i32], i: &usize, acc: &mut Vec<Vec<i32>>) {
         if i >= &arr.len() {
             acc.push(Vec::new());
             return;
         }
 
-        Solution::subset_helper(arr, &(*i+1), result, acc);
+        Solution::subset_helper(arr, &(*i+1), acc);
         for j in 0..acc.len() {
             let mut temp = acc[j].clone();
             temp.push(arr[*i]);
@@ -163,7 +163,8 @@ impl Solution {
         let i = 0;
         let mut result: Vec<i32> = Vec::new();
         let mut acc: Vec<Vec<i32>> = Vec::new();
-        Solution::subset_helper(arr, &i, &mut result, &mut acc);
+        Solution::subset_helper(arr, &i, &mut acc);
         acc
     }
+
 }
