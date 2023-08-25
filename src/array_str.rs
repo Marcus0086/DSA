@@ -4,7 +4,7 @@ pub struct Solution;
 
 impl Solution {
     pub fn profit(prices: Vec<i32>) -> i32 {
-        let (mut r , mut l) = (1, 0); // two pointers
+        let (mut r, mut l) = (1, 0); // two pointers
         let mut maxP = 0;
         while r < prices.len() {
             if prices[l] < prices[r] {
@@ -36,7 +36,6 @@ impl Solution {
             }
             l += 1;
             r -= 1;
-
         }
         true
     }
@@ -71,5 +70,25 @@ impl Solution {
         }
         true
     }
-}
 
+    pub fn longest_pallindrome(s: String) -> i32 {
+        if (s.len() == 0 || s.len() == 1) {
+            return s.len() as i32;
+        }
+        let mut map: HashMap<char, i32> = HashMap::new();
+        for c in s.chars() {
+            let count = map.entry(c).or_insert(0);
+            *count += 1;
+        }
+        let mut odd = 0;
+        for (_, v) in map {
+            if v % 2 == 1 {
+                odd += 1;
+            }
+        }
+        if odd == 0 {
+            return s.len() as i32;
+        }
+        s.len() as i32 - odd + 1
+    }
+}

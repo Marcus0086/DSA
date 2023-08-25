@@ -12,8 +12,6 @@ mod tests {
     use crate::two_sum;
     use crate::valid_paranthesis;
 
-    use std::collections::HashMap;
-
     #[test]
     fn test_two_sum() {
         let cases = 3;
@@ -37,7 +35,6 @@ mod tests {
         }
     }
 
-    #[test]
     fn test_two_sum_two_pass_hash() {
         let cases = 3;
         let mut nums: Vec<Vec<i32>> = Vec::new();
@@ -224,6 +221,12 @@ mod tests {
     fn test_climbing_stairs() {
         let input = 10;
         assert_eq!(dp::Solution::climbing_stairs(input), 89);
+    }
+
+    #[test]
+    fn test_longest_pallindrome() {
+        let input = "abccccdd".to_string();
+        assert_eq!(array_str::Solution::longest_pallindrome(input), 7);
     }
 }
 
