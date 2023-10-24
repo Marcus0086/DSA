@@ -1,14 +1,23 @@
 mod array_str;
 mod dp;
+mod graphs;
 mod recursion;
+mod test_all;
 mod two_sum;
 mod valid_paranthesis;
 
 #[cfg(test)]
 mod tests {
+    use std::cell::RefCell;
+    use std::rc::Rc;
+
     use crate::array_str;
     use crate::dp;
+    use crate::graphs;
+    use crate::graphs::Graph;
+    use crate::graphs::Node;
     use crate::recursion;
+    use crate::test_all;
     use crate::two_sum;
     use crate::valid_paranthesis;
 
@@ -207,7 +216,7 @@ mod tests {
     fn test_angram() {
         let input = "anagram".to_string();
         let input2 = "nagaram".to_string();
-        let result = array_str::Solution::is_anagram(input, input2);
+        let result = test_all::Solution::is_anagram(input, input2);
         assert_eq!(result, true);
     }
 
@@ -228,6 +237,142 @@ mod tests {
         let input = "abccccdd".to_string();
         assert_eq!(array_str::Solution::longest_pallindrome(input), 7);
     }
+
+    #[test]
+    fn test_max_subarray() {
+        let input = vec![-2, 1, -3, 4, -1, 2, 1, -5, 4];
+        assert_eq!(dp::Solution::max_subarray(input), 6);
+    }
+
+    #[test]
+    fn test_majority_element() {
+        let input = vec![2, 2, 1, 1, 1, 2, 2];
+        assert_eq!(array_str::Solution::majority_element(input), 2);
+    }
+
+    #[test]
+    fn test_three_sum() {
+        let input = vec![-1, 0, 1, 2, -1, -4];
+        assert_eq!(
+            array_str::Solution::three_sum(input),
+            vec![vec![-1, -1, 2], vec![-1, 0, 1]]
+        );
+    }
+
+    #[test]
+    fn test_flood_fill() {
+        let input = vec![vec![1, 1, 1], vec![1, 1, 0], vec![1, 0, 1]];
+        assert_eq!(
+            graphs::Solution::flood_fill(input, 1, 1, 2),
+            vec![vec![2, 2, 2], vec![2, 2, 0], vec![2, 0, 1]]
+        );
+    }
+
+    #[test]
+    fn test_update_matrix() {
+        let input = vec![vec![0, 0, 0], vec![0, 1, 0], vec![1, 1, 1]];
+        assert_eq!(
+            graphs::Solution::update_matrix(input),
+            vec![vec![0, 0, 0], vec![0, 1, 0], vec![1, 2, 1]]
+        );
+    }
+
+    #[test]
+    fn test_clone_graph() {
+        let node = Rc::new(RefCell::new(Node::new(1)));
+        node.borrow_mut()
+            .add_neighbor(Rc::new(RefCell::new(Node::new(2))));
+        node.borrow_mut()
+            .add_neighbor(Rc::new(RefCell::new(Node::new(3))));
+        let result = graphs::Solution::clone_graph(Some(node));
+        let euating_node = Rc::new(RefCell::new(Node::new(1)));
+        euating_node
+            .borrow_mut()
+            .add_neighbor(Rc::new(RefCell::new(Node::new(2))));
+        euating_node
+            .borrow_mut()
+            .add_neighbor(Rc::new(RefCell::new(Node::new(3))));
+        assert_eq!(
+            result.unwrap().borrow().get_val(),
+            euating_node.borrow().get_val()
+        );
+    }
+
+    #[test]
+    fn test_clone_graph_bfs() {
+        let node = Rc::new(RefCell::new(Node::new(1)));
+        node.borrow_mut()
+            .add_neighbor(Rc::new(RefCell::new(Node::new(2))));
+        node.borrow_mut()
+            .add_neighbor(Rc::new(RefCell::new(Node::new(3))));
+        let result = graphs::Solution::clone_graph_bfs(Some(node));
+        let euating_node = Rc::new(RefCell::new(Node::new(1)));
+        euating_node
+            .borrow_mut()
+            .add_neighbor(Rc::new(RefCell::new(Node::new(2))));
+        euating_node
+            .borrow_mut()
+            .add_neighbor(Rc::new(RefCell::new(Node::new(3))));
+        assert_eq!(
+            result.unwrap().borrow().get_val(),
+            euating_node.borrow().get_val()
+        );
+    }
+
+    #[test]
+    fn test_graph_bfs() {
+        let mut graph: Graph<i32, i32, String> = graphs::Graph::new();
+        graph.add_edge(0, 1, 1);
+        graph.add_edge(0, 2, 1);
+        graph.add_edge(1, 2, 1);
+        graph.add_edge(2, 0, 1);
+        graph.add_edge(2, 3, 1);
+        graph.add_edge(3, 4, 1);
+        graph.add_edge(4, 2, 1);
+        let result = graph.dfs(2);
+        assert_eq!(result, vec![2, 0, 1, 3, 4]);
+    }
+
+    #[test]
+    fn test_oranges_rotting() {
+        let input = vec![vec![2, 1, 1], vec![1, 1, 0], vec![0, 1, 1]];
+        assert_eq!(graphs::Solution::oranges_rotting(input), 4);
+    }
+
+    #[test]
+    fn test_num_islands() {
+        let input = vec![
+            vec!['1', '1', '1', '1', '0'],
+            vec!['1', '1', '0', '1', '0'],
+            vec!['1', '1', '0', '0', '0'],
+            vec!['0', '0', '0', '0', '0'],
+        ];
+        assert_eq!(graphs::Solution::num_islands(input), 1);
+    }
+
+    #[test]
+    fn test_exist() {
+        let input = vec![
+            vec!['A', 'B', 'C', 'E'],
+            vec!['S', 'F', 'C', 'S'],
+            vec!['A', 'D', 'E', 'E'],
+        ];
+        assert_eq!(graphs::Solution::exist(input, "ABCCED".to_string()), true);
+    }
+
+    #[test]
+    fn test_topological_sort() {
+        let mut graph: Graph<i32, i32> = graphs::Graph::new();
+        graph.add_edge(0, 1, 1);
+        graph.add_edge(0, 2, 1);
+        graph.add_edge(1, 2, 1);
+        graph.add_edge(2, 3, 1);
+
+        let result = graph.topological_sort();
+        assert_eq!(result, vec![0, 1, 2, 3]);
+    }
+
 }
 
-fn main() {}
+fn main() {
+}

@@ -14,7 +14,7 @@ impl Solution {
                 }
             }
         }
-        result
+       result
     }
 
     pub fn two_sum_two_pass_hash(nums: Vec<i32>, target: i32) -> Vec<i32> {
@@ -44,6 +44,23 @@ impl Solution {
                 return vec![index, i as i32];
             }
             complements.insert(*num, i as i32);
+        }
+        vec![]
+    }
+
+    pub fn two_sum_two(numbers: Vec<i32>, target: i32) -> Vec<i32> {
+        // we already have sorted array here, find the index of the numbers who sum upto target
+        let mut left = 0;
+        let mut right = numbers.len() - 1;
+        while left < right {
+            let sum = numbers[left] + numbers[right];
+            if sum == target {
+                return vec![left as i32, right as i32];
+            } else if sum < target {
+                left += 1;
+            } else {
+                right -= 1;
+            }
         }
         vec![]
     }

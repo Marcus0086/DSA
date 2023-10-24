@@ -51,7 +51,8 @@ impl Solution {
         if let Some(&val) = map.get(&n) {
             return val;
         }
-        let result = Solution::dp_rec_fib_helper(n - 1, map) + Solution::dp_rec_fib_helper(n - 2, map);
+        let result =
+            Solution::dp_rec_fib_helper(n - 1, map) + Solution::dp_rec_fib_helper(n - 2, map);
         map.insert(n, result);
         result
     }
@@ -69,5 +70,19 @@ impl Solution {
             prev = temp;
         }
         curr
+    }
+
+    pub fn max_subarray(nums: Vec<i32>) -> i32 {
+        let mut max = nums[0];
+        let mut sum = 0;
+        for n in nums {
+            if sum < 0 {
+                sum = n;
+            } else {
+                sum += n;
+            }
+            max = std::cmp::max(max, sum);
+        }
+        max
     }
 }
